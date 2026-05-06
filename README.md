@@ -18,8 +18,8 @@ In its current implementation, CRANE takes in event sequences from a .tsv file, 
 * Clone the code from its GitHub repository:
 
 ```bash
-git clone --recursive https://github.com/STORMgroup/CERN.git
-cd CERN
+git clone --recursive https://github.com/STORMgroup/CRANE.git
+cd CRANE
 ```
 
  * Make the executable
