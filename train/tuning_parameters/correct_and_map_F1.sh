@@ -10,35 +10,40 @@ THREAD=$4
 MODEL=$5
 SEGMENTER=$6
 RUN_ID=$7  # Unique tag (e.g. modelname_segmenter) to avoid collisions between parallel runs
+HPC=$8
 
 # Correct
 
 CRANE_PATH="../../src/crane"
-DATA_DIR="../../test/data/cern_datasets/CERN_data/d1_ecoli_training"
+DATA_DIR="../../test/data/crane_datasets/CRANE_data/d0_ecoli_training"
 
-"$CRANE_PATH" "$MODEL" "${DATA_DIR}/d1_ecoli_training_${SEGMENTER}_events.tsv" "$PSTAY" "$PSKIP" -t $THREAD --window-size "${WINDOWSIZE}" > "${DATA_DIR}/d1_ecoli_training_${SEGMENTER}_events_corrected_${RUN_ID}.tsv"
+"$CRANE_PATH" "$MODEL" "${DATA_DIR}/d0_ecoli_training_${SEGMENTER}_events.tsv" "$PSTAY" "$PSKIP" -t $THREAD --window-size "${WINDOWSIZE}" > "${DATA_DIR}/d0_ecoli_training_${SEGMENTER}_events_corrected_${RUN_ID}.tsv"
 
 
 # Map
 
 EXEC="rawhash2"
-INDEX="./indexes/rawhash2_training_index.ind"
-SIGNALS="../../test/data/cern_datasets/CERN_data/d1_ecoli_training/"
+INDEX="./indexes/rawhash2_training_index_${HPC}.ind"
+SIGNALS="../../test/data/crane_datasets/CRANE_data/d0_ecoli_training/"
 
 OUTDIR="out_rh2_${RUN_ID}"
-EVENTS="${DATA_DIR}/d1_ecoli_training_${SEGMENTER}_events_corrected_${RUN_ID}.tsv"
-PARAMS="--chunk-size 99999999 --r10 --sig-diff 0 --events-file ${EVENTS}"
+EVENTS="${DATA_DIR}/d0_ecoli_training_${SEGMENTER}_events_corrected_${RUN_ID}.tsv"
+PARAMS="--r10 -w 0 --events-file ${EVENTS}"
+
+if [[ "$HPC" == "hpc_off" ]]; then
+    PARAMS="${PARAMS} --sig-diff -1"
+fi
 
 mkdir -p "$OUTDIR"
 
-rawhash2 -x sensitive -t ${THREAD} ${PARAMS} \
+rawhash2 -x r10 -t ${THREAD} ${PARAMS} \
 -o "${OUTDIR}/corrected_rawhash2.paf" \
 "${INDEX}" \
 ${SIGNALS}
 
 # Get F1 score
 
-GT="../../test/data/cern_datasets/CERN_data/d1_ecoli_training/d1_ecoli_training_true_mappings.paf"
+GT="../../test/data/crane_datasets/CRANE_data/d0_ecoli_training/d0_ecoli_training_true_mappings.paf"
 python ../../test/scripts/pafstats.py -r "$GT" --annotate "${OUTDIR}/corrected_rawhash2.paf" > "${OUTDIR}/annotated.paf" 2> "${OUTDIR}/throughput.txt"
 
 F1=$(awk '

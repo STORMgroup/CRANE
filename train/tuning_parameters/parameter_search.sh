@@ -4,6 +4,7 @@ set -e
 THREAD=$1
 MODEL=$2
 SEGMENTER=$3
+HPC=$4
 
 START_TIME=$(date +%s)
 
@@ -18,16 +19,16 @@ echo "  Segmenter: $SEGMENTER"
 echo "========================================"
 echo ""
 
-cd ../../test/data/cern_datasets
+cd ../../test/data/crane_datasets
 
-if [ -d "CERN_data" ]; then
-    echo "CERN_data directory exists, continuing..."
+if [ -d "CRANE_data" ]; then
+    echo "CRANE_data directory exists, continuing..."
 else
-    echo "CERN_data not found, running download script..."
-    bash download_cern_data.sh
+    echo "CRANE_data not found, running download script..."
+    bash download_crane_data.sh
 fi
 
-if [ -f "CERN_data/d1_ecoli_training/d1_ecoli_training_true_mappings.paf" ]; then
+if [ -f "CRANE_data/d0_ecoli_training/d0_ecoli_training_true_mappings.paf" ]; then
   echo "Ground truth exists, continuing..."
 else
   echo "Please run prepare_training.sh with GPU access"
@@ -36,22 +37,26 @@ fi
 
 cd ../../../train/tuning_parameters
 
-DATA_DIR="../../test/data/cern_datasets/CERN_data/d1_ecoli_training/"
+DATA_DIR="../../test/data/crane_datasets/CRANE_data/d0_ecoli_training/"
 
 PORE="../../extern/kmer_models/uncalled_r1041_model_only_means.txt"
 
 mkdir -p "indexes"
 
-REF="../../test/data/cern_datasets/CERN_data/d1_ecoli_small/d1_ecoli_ref.fa"
+REF="../../test/data/crane_datasets/CRANE_data/d1_ecoli_small/d1_ecoli_ref.fa"
 
-PARAMS="--chunk-size 99999999 --r10 --sig-diff 0"
+PARAMS="-w 0"
 
-if [ -f "indexes/rawhash2_training_index.ind" ]; then
+if [[ "$HPC" == "hpc_off" ]]; then
+    PARAMS="${PARAMS} --sig-diff -1"
+fi
+
+if [ -f "indexes/rawhash2_training_index_${HPC}.ind" ]; then
   echo "Index already exists, continuing..."
 else
   echo "Creating index..."
-  rawhash2 -x sensitive -t ${THREAD} -p "${PORE}" ${PARAMS} \
-  -d "./indexes/rawhash2_training_index.ind" \
+  rawhash2 -x r10 -t ${THREAD} -p "${PORE}" ${PARAMS} \
+  -d "./indexes/rawhash2_training_index_${HPC}.ind" \
   ${REF}
 fi
 
@@ -62,7 +67,7 @@ fi
 get_f1() {
     local pstay=$1 pskip=$2 winsize=$3
     local result
-    result=$(bash correct_and_map_F1.sh "$pstay" "$pskip" "$winsize" "$THREAD" "$MODEL" "$SEGMENTER" "$RUN_ID" 2>/dev/null)
+    result=$(bash correct_and_map_F1.sh "$pstay" "$pskip" "$winsize" "$THREAD" "$MODEL" "$SEGMENTER" "$RUN_ID" "$HPC" 2>/dev/null)
     echo "$result" | grep "F1 Score:" | awk '{print $3}'
 }
 
@@ -233,9 +238,9 @@ echo "========================================"
 echo "FINAL RESULTS:"
 echo "  Model     = $MODEL"
 echo "  Segmenter = $SEGMENTER"
+echo "  HPC       = $HPC"
+echo "  Total time= ${ELAPSED} seconds"
 echo "  P_STAY    = $PSTAY"
 echo "  P_SKIP    = $PSKIP"
-echo "  WINDOWSIZE= $WINDOWSIZE"
-echo "  Total time= ${ELAPSED} seconds"
 echo "  F1 Score  = $BEST_F1"
 echo "========================================"

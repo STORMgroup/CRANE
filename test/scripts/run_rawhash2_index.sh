@@ -9,15 +9,15 @@ HPC=$4
 EXEC="rawhash2"
 
 OUTDIR="index"
-PARAMS="--chunk-size 99999999 --r10"
+PARAMS="-w 0"
 
 if [[ "$HPC" == "hpc_off" ]]; then
-    PARAMS="${PARAMS} --sig-diff 0"
+    PARAMS="${PARAMS} --sig-diff -1"
 fi
 
 mkdir -p "$OUTDIR"
 
-REF="../../data/cern_datasets/CERN_data/${PREFIX}_small/${PREFIX}_ref.fa"
+REF="../../data/crane_datasets/CRANE_data/${PREFIX}_small/${PREFIX}_ref.fa"
 
 PORE="../../../extern/kmer_models/uncalled_r1041_model_only_means.txt"
 

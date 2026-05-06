@@ -3,19 +3,19 @@ set -e
 
 # This requires Dorado v1.4.0
 
-DATA_DIR="./CERN_data/d1_ecoli_training"
+DATA_DIR="./CRANE_data/d0_ecoli_training"
 PREFIX="d1_ecoli_training"
 
 THREAD=$1
 
 # Input / output files
 FASTQ_FILE="${DATA_DIR}/${PREFIX}_reads.fastq"
-REF_FILE="./CERN_data/d1_ecoli_small/d1_ecoli_ref.fa"
+REF_FILE="./CRANE_data/d1_ecoli_small/d1_ecoli_ref.fa"
 PAF_FILE="${DATA_DIR}/${PREFIX}_true_mappings.paf"
 
 # Generate the ground truth mappings:
 
-DORADO_PATH="../../dorado-1.4.0-linux-x64/bin/dorado"
+DORADO_PATH="../../crane_env/dorado-1.4.0-linux-x64/bin/dorado"
 
 ${DORADO_PATH} basecaller sup "$DATA_DIR" --emit-fastq > "$FASTQ_FILE"
 
@@ -32,7 +32,7 @@ SEGMENTER="../../../src/segmentation/bin/generate_events"
 
 # Create and campolina events
 
-CAMPOLINA_PATH="../../Campolina"
+CAMPOLINA_PATH="../../crane_env/Campolina"
 
 INFERENCE="${CAMPOLINA_PATH}/inference.py"
 SIGNALS="${DATA_DIR}/"

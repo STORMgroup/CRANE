@@ -13,6 +13,8 @@ make
 ./train_hmm 16 ../extern/kmer_models/uncalled_r1041_model_only_means 11 1 > output.tsv
 ```
 
+The trained HMM is output in a 3-line tsv format, with the first line being emission means, second line being emission variances, and the third line being the transitions between states.
+
 
 ## Pre-trained models
 

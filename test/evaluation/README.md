@@ -26,3 +26,13 @@ The script tabulate_results.sh will gather all existing results stored in summar
 ```bash
 bash tabulate_results.sh
 ```
+
+## Runtime and memory usage notes
+
+If resources are limited, we recommend testing on the d1 dataset. Mapping d2 can take upwards of 50GB of RAM, and d3 can take above 500GB. 
+
+For each dataset, there are 3 possible segmenters (scrappieR9, scrappieR10, campolina), each of which can be corrected or not, resulting in 6 configurations.
+
+Using 32 threads and "hpc_off", it takes about 1 minute to map all 6 configurations of d1, between 2 and 3 hours to map all 6 configurations of d2, and between 8 and 10 hours to map all 6 configurations of d3.
+
+Runtimes and memory usage can be decreased by mapping with hpc_on, and runtimes can be further reduced by running the 6 configurations in parallel, resources permitting.

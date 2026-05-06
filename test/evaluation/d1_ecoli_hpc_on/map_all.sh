@@ -4,7 +4,7 @@ set -e
 THREAD=$1
 
 PREFIX="d1_ecoli"
-PRESET="sensitive"
+PRESET="r10"
 HPC="hpc_on"
 
 bash ../../scripts/run_rawhash2_index.sh ${THREAD} ${PREFIX} ${PRESET} ${HPC}
@@ -30,7 +30,7 @@ COMBINED="${PREFIX}_${PRESET}_${HPC}"
 OUTDIR="results"
 mkdir -p "${OUTDIR}"
 
-TRUE_MAPPINGS="../../data/cern_datasets/CERN_data/${PREFIX}_small/${PREFIX}_true_mappings.paf"
+TRUE_MAPPINGS="../../data/crane_datasets/CRANE_data/${PREFIX}_small/${PREFIX}_true_mappings.paf"
 
 SEGMENTER="scrappieR9"
 

@@ -13,8 +13,6 @@ Follow these steps to install the tools necessary to evaluate CRANE.
 To compile these tools, will require gcc version 11.2.0 or higher.
 
 ```bash
-# Create the bin:
-mkdir bin
 
 # Re-adding the binary to your path is necessary after you start a new shell session.
 
@@ -29,13 +27,16 @@ conda config --set channel_priority strict
 conda env create -f environment.yml 
 conda activate crane-env
 
+# Create the bin:
+mkdir -p crane_env/bin && cd crane_env
+
 # Step 1: Compiling tools
 
 # Cloning and compiling RawHash2
 # If this doesn't work, 1) try building with make instead of cmake, and 2) make sure you are using gcc 11+
 git clone --recursive https://github.com/STORMgroup/RawHash2.git rawhash2 \
   && cd rawhash2 \
-  && git checkout 1386353d78c90b4c7bfae0e96e33e1e1a44ef20d \
+  && git checkout 92366afb09df9fa791e7705414e1372f487912ed \
   && git submodule update --init --recursive \
   && make \
   && cp ./bin/rawhash2 ../bin/ && cd ..

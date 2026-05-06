@@ -1,6 +1,6 @@
 # Error Correction Read Mapping Evaluation
 
-In order to evaluate CRANE, make sure you have followed the steps in [evaluation](../).
+In order to evaluate CRANE, make sure you have followed the steps in [test](../../), and have downloaded and prepared the necessary dataset in [data/cern_datasets](../../data/cern_datasets).
 
 In this directory, just run the following command:
 
