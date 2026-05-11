@@ -187,14 +187,14 @@ def main():
     map_ms = []
     map_bp = []
     for entry, _ in results:
-        if entry.is_mapped:
+        #if entry.is_mapped:
             # Extract mt:f: tag from raw line
-            for field in entry.raw_line.split('\t')[12:]:
-                if field.startswith('mt:f:'):
-                    mt = float(field.split(':')[2])
-                    map_ms.append(mt)
-                    map_bp.append(entry.qr_en)
-                    break
+        for field in entry.raw_line.split('\t')[12:]:
+            if field.startswith('mt:f:'):
+                mt = float(field.split(':')[2])
+                map_ms.append(mt)
+                map_bp.append(entry.qr_en)
+                break
 
     if map_ms:
         map_ms = np.array(map_ms)
