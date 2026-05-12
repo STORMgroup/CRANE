@@ -3,7 +3,7 @@
 Get started by downloading the CRANE evaluation datasets:
 
 ```bash
-bash download_cern_data.sh
+bash download_crane_data.sh
 ```
 
 
