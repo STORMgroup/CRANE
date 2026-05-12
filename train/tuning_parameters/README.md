@@ -20,5 +20,5 @@ We also provide a script which automatically generates a baseline F1 score for t
 
 ```bash
 # bash generate_training_baselines.sh <n_threads> <HPC>
-bash parameter_search.sh 32 hpc_off
+bash generate_training_baselines.sh 32 hpc_off
 ```
