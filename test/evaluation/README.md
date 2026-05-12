@@ -6,7 +6,7 @@ In order to evaluate CRANE, follow these steps:
 
 2. Install the necessary tools by following the steps in [evaluation](../)
    
-3. Download then segment and correct the datasets in [../data/cern_datasets/](../data/cern_datasets/)
+3. Download then segment and correct the datasets in [../data/crane_datasets/](../data/crane_datasets/)
 
 4. Run RawHash2 with and without the corrected events, using the script map_all.sh in a dataset's evaluation directory
 ```bash

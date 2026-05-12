@@ -1,4 +1,0 @@
-numpy
-h5py
-pod5
-pyslow5
