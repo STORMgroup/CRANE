@@ -33,7 +33,7 @@ SEGMENTER="../../../src/segmentation/bin/generate_events"
 
 # Create campolina events
 
-CAMPOLINA_PATH="../../Campolina"
+CAMPOLINA_PATH="../../crane_env/Campolina"
 
 INFERENCE="${CAMPOLINA_PATH}/inference.py"
 SIGNALS="${DATA_DIR}/"

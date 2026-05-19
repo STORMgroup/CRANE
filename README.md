@@ -17,24 +17,21 @@ In its current implementation, CRANE takes in event sequences from a .tsv file, 
 
 ## Quick Start
 
-* Clone the code from its GitHub repository:
+* Clone the code from its GitHub repository, and compile CRANE:
 
 ```bash
 git clone --recursive https://github.com/STORMgroup/CRANE.git
 cd CRANE
-```
-
- * Make the executable
-
-```bash
-cd src
 make
 ```
 
-  * Then add it to your $PATH or bin:
+* Then add it to your $PATH or bin:
 
 ```bash
+# Add to bin:
 cp crane /path/to/bin/
+# Or add to PATH:
+export PATH=$PWD/src:$PATH
 ```
 
 # Usage
@@ -42,7 +39,7 @@ cp crane /path/to/bin/
 Correct nanopore event sequences by providing the path to the trained HMM, the .tsv containing event sequences, and the parameters p_stay and p_skip.
 
 ```
-crane ./path/to/hmm_file.hmm ./path/to/event_file.tsv <p_stay> <p_skip> > corrected_events.tsv
+crane ./path/to/hmm_file.tsv ./path/to/event_file.tsv <p_stay> <p_skip> > corrected_events.tsv
 ```
 
 We provide code for creating events from pod5/fast5 raw signal files in (src/segmentation)[src/segmentation].

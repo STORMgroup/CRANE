@@ -56,4 +56,38 @@ git clone https://github.com/lbcb-sci/Campolina; cd Campolina; conda env create 
 
 # Add binaries to PATH
 export PATH=$PWD/bin:$PATH
+
+cd ..
+```
+
+# Reproducing results
+
+To reproduce the results of CRANE, follow these instructions, in order.
+
+First, ensure you have installed the necessary tools, as detailed above. There should be directories `./crane_env` and `./crane_env/bin`. The `crane-env` conda environment should be active.
+
+Second, navigate to the (crane_datasets)[./data/crane_datasets] directory to download, segment, correct, and create ground-truth mappings for each dataset:
+
+```bash
+cd ./data/crane_datasets
+
+bash download_crane_data.sh
+
+# Note the following scripts require GPU access for Campolina segmentation and Dorado basecalling. D1 requires the least resources, while D3 requires the most.
+
+bash prepare_d1.sh [THREAD_COUNT]
+bash prepare_d2.sh [THREAD_COUNT]
+bash prepare_d3.sh [THREAD_COUNT]
+
+cd ../../
+```
+
+Third, navigate to the desired directory in `./evaluation` and run the script `map_all.sh [THREAD_COUNT]` to see the affect on CRANE on RawHash2 read mapping accuracy and runtime:
+
+```bash 
+cd ./evaluation/d1_ecoli_hpc_off
+
+# D1 requires the least computational resources to run, and D3 requires the most. When running D2 and particularly D3, a large amount of memory (~100GB and >500GB, respectively), and many threads (16+) are recommended.
+
+bash map_all.sh [THREAD_COUNT]
 ```

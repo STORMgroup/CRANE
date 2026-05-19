@@ -10,7 +10,7 @@ This is an example of how to train an HMM, where n_states is the number of state
 ```bash
 make
 # ./train_hmm <n_states> <kmer_file> <k> <n_threads> > output.tsv
-./train_hmm 16 ../extern/kmer_models/uncalled_r1041_model_only_means 11 1 > output.tsv
+./train_hmm 16 ../extern/kmer_models/uncalled_r1041_model_only_means.txt 11 1 > output.tsv
 ```
 
 The trained HMM is output in a 3-line tsv format, with the first line being emission means, second line being emission variances, and the third line being the transitions between states.
